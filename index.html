@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="canvas1" style="border:1px solid #d3d3d3;" ></canvas>
+<canvas id="canvas2" style="border:1px solid #d3d3d3;" ></canvas>
+
+<script>
+
+var common = (function(){
+   function CustomMask(){
+        this.image;
+        this.sobel_x = [[-1,0,1],[-2,0,2],[-1,0,1]];
+        this.sobel_y = [[-1,-2,-1],[0,0,0],[1,2,1]];
+        this.constructor();
+    }
+    
+    CustomMask.prototype.constructor = function(){
+       this.loadImage("https://www.w3schools.com/html/img_the_scream.jpg");
+    }
+    
+    CustomMask.prototype.loadImage = function(url){
+       var that = this;
+       this.image = new Image();
+       this.image.onload = function() {
+            that.drawCanvas();
+       }
+       this.image.src = url;
+    }
+
+    CustomMask.prototype.drawCanvas = function(){
+       this.originImage = this.getCanvasData("canvas1",this.image);
+       this.convertImage = this.getCanvasData("canvas2",this.image);
+        
+       for(var y=1; y<this.originImage.height-2; y++){
+             for(var x=1; x<this.originImage.width-2; x++){
+               var code_x = this.applyCustomMask(x,y,this.sobel_x);
+                var code_y = this.applyCustomMask(x,y,this.sobel_y);
+                var code = Math.sqrt((Math.pow(code_x,2)+Math.pow(code_y,2)),2);
+                this.setGrayToPixel(x,y,code);
+            }
+       }
+       this.reloadCanvas("canvas2",this.convertImage);
+    }
+    CustomMask.prototype.getCanvasData = function(elementId,image){
+       var c = document.getElementById(elementId);
+       c.width = this.image.naturalWidth;
+       c.height = this.image.naturalHeight;
+       var ctx = c.getContext("2d");
+       ctx.drawImage(this.image, 0, 0);
+       return ctx.getImageData(0, 0, c.width, c.height);
+    }
+    CustomMask.prototype.reloadCanvas = function(elementId,data){
+      document.getElementById(elementId).getContext("2d").putImageData(data,0,0);
+   }
+    
+    CustomMask.prototype.getGrayFromPixel = function(x,y){
+       var that = this;
+       var startArrayNum = 4*(x+this.originImage.width*y);
+       var rColor = this.originImage.data[startArrayNum];
+       var gColor = this.originImage.data[startArrayNum+1];
+       var bColor = this.originImage.data[startArrayNum+2];
+      var gray = rColor * 0.299 + gColor * 0.587 + bColor * 0.114;
+       return gray;
+    }
+    CustomMask.prototype.setGrayToPixel = function(x,y,code){
+       var startArrayNum = 4*(x+this.originImage.width*y);
+      this.convertImage.data[startArrayNum] = code;
+      this.convertImage.data[startArrayNum+1] = code;
+      this.convertImage.data[startArrayNum+2] = code;
+    }
+    
+    CustomMask.prototype.applyCustomMask = function(x,y,mask){
+      var code = this.getGrayFromPixel(x-1,y-1)*mask[0][0]
+        +this.getGrayFromPixel(x,y-1)*mask[1][0]
+        +this.getGrayFromPixel(x+1,y-1)*mask[2][0]
+        +this.getGrayFromPixel(x-1,y)*mask[0][1]
+        +this.getGrayFromPixel(x,y)*mask[1][1]
+        +this.getGrayFromPixel(x+1,y)*mask[2][1]
+        +this.getGrayFromPixel(x-1,y+1)*mask[0][2]
+        +this.getGrayFromPixel(x,y+1)*mask[1][2]
+        +this.getGrayFromPixel(x+1,y+1)*mask[2][2]
+        return code;
+    }
+ 
+    return new CustomMask();
+})()
+
+
+</script>
+
+</body>
+</html>
