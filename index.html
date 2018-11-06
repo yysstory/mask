@@ -5,6 +5,7 @@
 <canvas id="canvas1" style="border:1px solid #d3d3d3;" ></canvas>
 <canvas id="canvas2" style="border:1px solid #d3d3d3;" ></canvas>
 
+<input type="file" id="file1" accept="image/*"  />
 <script>
 
 var common = (function(){
@@ -16,7 +17,22 @@ var common = (function(){
     }
     
     CustomMask.prototype.constructor = function(){
-       this.loadImage("//www.w3schools.com/html/img_the_scream.jpg");
+       this.loadImage("img_the_scream.jpg");
+       this.addFileChangeEvent();
+    }
+    
+     CustomMask.prototype.addFileChangeEvent = function(){
+     	var that = this;
+       document.getElementById("file1").onchange = function(){
+       		console.log("change")
+         	var reader = new FileReader();
+            
+            reader.onload = function (e) {
+            	console.log(e);
+                that.loadImage(e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+       }
     }
     
     CustomMask.prototype.loadImage = function(url){
@@ -25,10 +41,7 @@ var common = (function(){
        this.image.onload = function() {
             that.drawCanvas();
        }
-       this.image.src = url + '?' + new Date().getTime();
-         
-         this.image.crossOrigin = "Anonymous";
-
+       this.image.src = url;
     }
 
     CustomMask.prototype.drawCanvas = function(){
