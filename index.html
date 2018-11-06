@@ -26,7 +26,8 @@ var common = (function(){
             that.drawCanvas();
        }
        this.image.src = url + '?' + new Date().getTime();
-         this.image.setAttribute('crossOrigin', '');
+         
+         this.image.crossOrigin = "Anonymous";
 
     }
 
