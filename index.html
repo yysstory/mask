@@ -25,7 +25,9 @@ var common = (function(){
        this.image.onload = function() {
             that.drawCanvas();
        }
-       this.image.src = url;
+       this.image.src = url + '?' + new Date().getTime();
+         this.image.setAttribute('crossOrigin', '');
+
     }
 
     CustomMask.prototype.drawCanvas = function(){
