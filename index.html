@@ -1,109 +1,453 @@
 <!DOCTYPE html>
 <html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <style>
+        input{
+            width:50px;
+        }
+        canvas {
+            max-width:100%
+        }
+    </style>
+
+</head>
+
 <body>
 
-<canvas id="canvas1" style="border:1px solid #d3d3d3;" ></canvas>
-<canvas id="canvas2" style="border:1px solid #d3d3d3;" ></canvas>
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="four wide column">
+                <br />
+                <div class="row">
+                    <div class="column">
+                        <div class="top attached ui one item menu">
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="file" id="file1" accept="image/*">
+                                </div>
+                            </a>
+                        </div>
+                        <p>* 초기값은 소벨 마스크 입니다.</p>
 
-<input type="file" id="file1" accept="image/*"  />
-<script>
 
-var common = (function(){
-   function CustomMask(){
-        this.image;
-        this.sobel_x = [[-1,0,1],[-2,0,2],[-1,0,1]];
-        this.sobel_y = [[-1,-2,-1],[0,0,0],[1,2,1]];
-        this.constructor();
-    }
-    
-    CustomMask.prototype.constructor = function(){
-       this.loadImage("img_the_scream.jpg");
-       this.addFileChangeEvent();
-    }
-    
-     CustomMask.prototype.addFileChangeEvent = function(){
-     	var that = this;
-       document.getElementById("file1").onchange = function(){
-       		console.log("change")
-         	var reader = new FileReader();
-            
-            reader.onload = function (e) {
-            	console.log(e);
-                that.loadImage(e.target.result);
+                        <h3>Mask 1</h3>
+                        <div class="top attached ui three item menu">
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" class="inputNum" value="-1">
+                                </div>
+                            </a>
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" class="inputNum" value="0">
+                                </div>
+                            </a>
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" class="inputNum" value="1">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="attached ui three item menu">
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" class="inputNum" value="-2">
+                                </div>
+                            </a>
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" class="inputNum" value="0">
+                                </div>
+                            </a>
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" class="inputNum" value="2">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="attached ui three item menu">
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" class="inputNum" value="-1">
+                                </div>
+                            </a>
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" class="inputNum" value="0">
+                                </div>
+                            </a>
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" class="inputNum" value="1">
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="column">
+                        <h3>Mask 2</h3>
+                        <div class="top attached ui three item menu">
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" value="-1">
+                                </div>
+                            </a>
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" value="-2">
+                                </div>
+                            </a>
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" value="-1">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="attached ui three item menu">
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" value="0">
+                                </div>
+                            </a>
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" value="0">
+                                </div>
+                            </a>
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" value="0">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="attached ui three item menu">
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" value="1">
+                                </div>
+                            </a>
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" value="2">
+                                </div>
+                            </a>
+                            <a class="item">
+                                <div class="ui input">
+                                    <input type="number" value="1">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <button class="fluid ui button" onclick="$('.ui.longer.modal').modal('show');">소스보기</button>
+
+
+                </div>
+            </div>
+            <div class="six wide column">
+                <br />
+                <div class="two column row">
+
+                    <div class="column">
+                        <div class="ui secondary segment">
+                            <canvas id="canvas1"></canvas>
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="six wide column">
+                <br />
+                <div class="two column row">
+
+                    <div class="column">
+                        <div class="ui secondary segment">
+                            <canvas id="canvas2"></canvas>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="ui longer modal">
+            <div class="header">
+                custom mask
+            </div>
+            <div class="scrolling image content">
+                <div class="description">
+                    <div class="ui header">core</div>
+                    <pre><code>
+                    
+                    
+        (function() {
+            function CustomMask() {
+                this.image;
+                this.mask_1 = [];
+                this.mask_2 = [];
+                this.constructor();
             }
-            reader.readAsDataURL(this.files[0]);
-       }
-    }
-    
-    CustomMask.prototype.loadImage = function(url){
-       var that = this;
-       this.image = new Image();
-       this.image.onload = function() {
-            that.drawCanvas();
-       }
-       this.image.src = url;
-    }
 
-    CustomMask.prototype.drawCanvas = function(){
-       this.originImage = this.getCanvasData("canvas1",this.image);
-       this.convertImage = this.getCanvasData("canvas2",this.image);
-        
-       for(var y=1; y<this.originImage.height-2; y++){
-             for(var x=1; x<this.originImage.width-2; x++){
-               var code_x = this.applyCustomMask(x,y,this.sobel_x);
-                var code_y = this.applyCustomMask(x,y,this.sobel_y);
-                var code = Math.sqrt((Math.pow(code_x,2)+Math.pow(code_y,2)),2);
-                this.setGrayToPixel(x,y,code);
+            CustomMask.prototype.constructor = function() {
+                this.loadImage("img_the_scream.jpg");
+                this.addFileChangeEvent();
+                this.addValueChangeEvent();
             }
-       }
-       this.reloadCanvas("canvas2",this.convertImage);
-    }
-    CustomMask.prototype.getCanvasData = function(elementId,image){
-       var c = document.getElementById(elementId);
-       c.width = this.image.naturalWidth;
-       c.height = this.image.naturalHeight;
-       var ctx = c.getContext("2d");
-       ctx.drawImage(this.image, 0, 0);
-       return ctx.getImageData(0, 0, c.width, c.height);
-    }
-    CustomMask.prototype.reloadCanvas = function(elementId,data){
-      document.getElementById(elementId).getContext("2d").putImageData(data,0,0);
-   }
-    
-    CustomMask.prototype.getGrayFromPixel = function(x,y){
-       var that = this;
-       var startArrayNum = 4*(x+this.originImage.width*y);
-       var rColor = this.originImage.data[startArrayNum];
-       var gColor = this.originImage.data[startArrayNum+1];
-       var bColor = this.originImage.data[startArrayNum+2];
-      var gray = rColor * 0.299 + gColor * 0.587 + bColor * 0.114;
-       return gray;
-    }
-    CustomMask.prototype.setGrayToPixel = function(x,y,code){
-       var startArrayNum = 4*(x+this.originImage.width*y);
-      this.convertImage.data[startArrayNum] = code;
-      this.convertImage.data[startArrayNum+1] = code;
-      this.convertImage.data[startArrayNum+2] = code;
-    }
-    
-    CustomMask.prototype.applyCustomMask = function(x,y,mask){
-      var code = this.getGrayFromPixel(x-1,y-1)*mask[0][0]
-        +this.getGrayFromPixel(x,y-1)*mask[1][0]
-        +this.getGrayFromPixel(x+1,y-1)*mask[2][0]
-        +this.getGrayFromPixel(x-1,y)*mask[0][1]
-        +this.getGrayFromPixel(x,y)*mask[1][1]
-        +this.getGrayFromPixel(x+1,y)*mask[2][1]
-        +this.getGrayFromPixel(x-1,y+1)*mask[0][2]
-        +this.getGrayFromPixel(x,y+1)*mask[1][2]
-        +this.getGrayFromPixel(x+1,y+1)*mask[2][2]
-        return code;
-    }
- 
-    return new CustomMask();
-})()
+
+            CustomMask.prototype.addFileChangeEvent = function() {
+                var that = this;
+                document.getElementById("file1").onchange = function() {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        that.loadImage(e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            }
+
+            CustomMask.prototype.loadMaskInfo = function() {
+                this.mask_1 = [];
+                this.mask_2 = [];
+                var elements = document.querySelectorAll("input[type=number]");
+                for (var i = 0; i < elements.length; i++) {
+                    if (i < 9)
+                        this.mask_1.push(Number(elements[i].value));
+                    else
+                        this.mask_2.push(Number(elements[i].value));
+                }
+            }
+
+            CustomMask.prototype.addValueChangeEvent = function() {
+                var that = this;
+                var elements = document.querySelectorAll("input[type=number]");
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].oninput = function() {
+                        that.loadMaskInfo();
+                        that.drawCanvas();
+                    }
+                }
+            }
+
+            CustomMask.prototype.loadImage = function(url) {
+                var that = this;
+                this.loadMaskInfo();
+                this.image = new Image();
+                this.image.onload = function() {
+                    that.drawCanvas();
+                }
+                this.image.src = url;
+            }
+
+            CustomMask.prototype.drawCanvas = function() {
+                this.originImage = this.getCanvasData("canvas1", this.image);
+                this.convertImage = this.getCanvasData("canvas2", this.image);
+
+                원래는 1로시작해서 -2까지만 돌아야하나.. 보기 안좋아서..
+                for (var y = 0; y < this.originImage.height; y++) {
+                    for (var x = 0; x < this.originImage.width; x++) {
+                        var code_x = this.applyCustomMask(x, y, this.mask_1);
+                        var code_y = this.applyCustomMask(x, y, this.mask_2);
+                        var code = Math.sqrt((Math.pow(code_x, 2) + Math.pow(code_y, 2)), 2);
+                        this.setGrayToPixel(x, y, code);
+                    }
+                }
+                this.reloadCanvas("canvas2", this.convertImage);
+            }
+            CustomMask.prototype.getCanvasData = function(elementId, image) {
+                var c = document.getElementById(elementId);
+                c.width = this.image.naturalWidth;
+                c.height = this.image.naturalHeight;
+                var ctx = c.getContext("2d");
+                ctx.drawImage(this.image, 0, 0);
+                return ctx.getImageData(0, 0, c.width, c.height);
+            }
+            CustomMask.prototype.reloadCanvas = function(elementId, data) {
+                document.getElementById(elementId).getContext("2d").putImageData(data, 0, 0);
+            }
+
+            CustomMask.prototype.getGrayFromPixel = function(x, y) {
+                var that = this;
+                var startArrayNum = 4 * (x + this.originImage.width * y);
+                var rColor = this.originImage.data[startArrayNum];
+                var gColor = this.originImage.data[startArrayNum + 1];
+                var bColor = this.originImage.data[startArrayNum + 2];
+                var gray = rColor * 0.299 + gColor * 0.587 + bColor * 0.114;
+                return gray;
+            }
+            CustomMask.prototype.setGrayToPixel = function(x, y, code) {
+                var startArrayNum = 4 * (x + this.originImage.width * y);
+                this.convertImage.data[startArrayNum] = code;
+                this.convertImage.data[startArrayNum + 1] = code;
+                this.convertImage.data[startArrayNum + 2] = code;
+            }
+
+            CustomMask.prototype.applyCustomMask = function(x, y, mask) {
+                var code = this.getGrayFromPixel(x - 1, y - 1) * mask[0] +
+                    this.getGrayFromPixel(x, y - 1) * mask[1] +
+                    this.getGrayFromPixel(x + 1, y - 1) * mask[2] +
+                    this.getGrayFromPixel(x - 1, y) * mask[3] +
+                    this.getGrayFromPixel(x, y) * mask[4] +
+                    this.getGrayFromPixel(x + 1, y) * mask[5] +
+                    this.getGrayFromPixel(x - 1, y + 1) * mask[6] +
+                    this.getGrayFromPixel(x, y + 1) * mask[7] +
+                    this.getGrayFromPixel(x + 1, y + 1) * mask[8]
+                return code;
+            }
+            return new CustomMask();
+        })()
+                    
+                    
+                    
+                    
+                    </code></pre>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui primary approve button">
+                    종료
+                    <i class="right chevron icon"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 
-</script>
+    <script>
+        (function() {
+            function CustomMask() {
+                this.image;
+                this.mask_1 = [];
+                this.mask_2 = [];
+                this.constructor();
+            }
+
+            CustomMask.prototype.constructor = function() {
+                this.loadImage("img_the_scream.jpg");
+                this.addFileChangeEvent();
+                this.addValueChangeEvent();
+            }
+
+            CustomMask.prototype.addFileChangeEvent = function() {
+                var that = this;
+                document.getElementById("file1").onchange = function() {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        that.loadImage(e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            }
+
+            CustomMask.prototype.loadMaskInfo = function() {
+                this.mask_1 = [];
+                this.mask_2 = [];
+                var elements = document.querySelectorAll("input[type=number]");
+                for (var i = 0; i < elements.length; i++) {
+                    if (i < 9)
+                        this.mask_1.push(Number(elements[i].value));
+                    else
+                        this.mask_2.push(Number(elements[i].value));
+                }
+            }
+
+            CustomMask.prototype.addValueChangeEvent = function() {
+                var that = this;
+                var elements = document.querySelectorAll("input[type=number]");
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].oninput = function() {
+                        that.loadMaskInfo();
+                        that.drawCanvas();
+                    }
+                }
+            }
+
+            CustomMask.prototype.loadImage = function(url) {
+                var that = this;
+                this.loadMaskInfo();
+                this.image = new Image();
+                this.image.onload = function() {
+                    that.drawCanvas();
+                }
+                this.image.src = url;
+            }
+
+            CustomMask.prototype.drawCanvas = function() {
+                this.originImage = this.getCanvasData("canvas1", this.image);
+                this.convertImage = this.getCanvasData("canvas2", this.image);
+
+                //원래는 1로시작해서 -2까지만 돌아야하나.. 보기 안좋아서..
+                for (var y = 0; y < this.originImage.height; y++) {
+                    for (var x = 0; x < this.originImage.width; x++) {
+                        var code_x = this.applyCustomMask(x, y, this.mask_1);
+                        var code_y = this.applyCustomMask(x, y, this.mask_2);
+                        var code = Math.sqrt((Math.pow(code_x, 2) + Math.pow(code_y, 2)), 2);
+                        this.setGrayToPixel(x, y, code);
+                    }
+                }
+                this.reloadCanvas("canvas2", this.convertImage);
+            }
+            CustomMask.prototype.getCanvasData = function(elementId, image) {
+                var c = document.getElementById(elementId);
+                c.width = this.image.naturalWidth;
+                c.height = this.image.naturalHeight;
+                var ctx = c.getContext("2d");
+                ctx.drawImage(this.image, 0, 0);
+                return ctx.getImageData(0, 0, c.width, c.height);
+            }
+            CustomMask.prototype.reloadCanvas = function(elementId, data) {
+                document.getElementById(elementId).getContext("2d").putImageData(data, 0, 0);
+            }
+
+            CustomMask.prototype.getGrayFromPixel = function(x, y) {
+                var that = this;
+                var startArrayNum = 4 * (x + this.originImage.width * y);
+                var rColor = this.originImage.data[startArrayNum];
+                var gColor = this.originImage.data[startArrayNum + 1];
+                var bColor = this.originImage.data[startArrayNum + 2];
+                var gray = rColor * 0.299 + gColor * 0.587 + bColor * 0.114;
+                return gray;
+            }
+            CustomMask.prototype.setGrayToPixel = function(x, y, code) {
+                var startArrayNum = 4 * (x + this.originImage.width * y);
+                this.convertImage.data[startArrayNum] = code;
+                this.convertImage.data[startArrayNum + 1] = code;
+                this.convertImage.data[startArrayNum + 2] = code;
+            }
+
+            CustomMask.prototype.applyCustomMask = function(x, y, mask) {
+                var code = this.getGrayFromPixel(x - 1, y - 1) * mask[0] +
+                    this.getGrayFromPixel(x, y - 1) * mask[1] +
+                    this.getGrayFromPixel(x + 1, y - 1) * mask[2] +
+                    this.getGrayFromPixel(x - 1, y) * mask[3] +
+                    this.getGrayFromPixel(x, y) * mask[4] +
+                    this.getGrayFromPixel(x + 1, y) * mask[5] +
+                    this.getGrayFromPixel(x - 1, y + 1) * mask[6] +
+                    this.getGrayFromPixel(x, y + 1) * mask[7] +
+                    this.getGrayFromPixel(x + 1, y + 1) * mask[8]
+                return code;
+            }
+            return new CustomMask();
+        })()
+
+    </script>
+
 
 </body>
+
 </html>
